@@ -9,10 +9,13 @@ node {
         sh 'mvn clean package'
     }
 
-    stage('Run') {
+    stage('Check JAR') {
         sh '''
-            export DISPLAY=:0
-            java -jar target/*.jar
+            ls target
         '''
+    }
+
+    stage('Archive') {
+        archiveArtifacts artifacts: 'target/*.jar'
     }
 }
