@@ -1,42 +1,18 @@
-pipeline {
+node {
 
-    agent any
-
-    tools {
-        jdk 'JDK17'
-        maven 'Maven'
+    stage('Clone') {
+        git branch: 'main',
+            url: 'https://github.com/csengr-tanya-gupta/Devops.git'
     }
 
-    stages {
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('Check JAR') {
-            steps {
-                sh '''
-                cd target
-                ls
-                '''
-            }
-        }
-
-        stage('Run Game') {
-            steps {
-                sh '''
-                java -jar target/*.jar
-                '''
-            }
-        }
-
+    stage('Build') {
+        sh 'mvn clean package'
     }
 
-    post {
-        success {
-            archiveArtifacts artifacts: 'target/*.jar'
-        }
+    stage('Run') {
+        sh '''
+            export DISPLAY=:0
+            java -jar target/*.jar
+        '''
     }
 }
