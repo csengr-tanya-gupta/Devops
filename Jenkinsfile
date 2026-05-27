@@ -13,12 +13,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/csengr-tanya-gupta/Devops.git'
-            }
-        }
-
         stage('Build Maven Project') {
             steps {
                 sh 'mvn clean package'
